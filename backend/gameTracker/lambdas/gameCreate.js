@@ -1,6 +1,9 @@
 const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 
+// Define constants
+const TABLE_NAME = "gameTracker-games";
+
 exports.handler = (event, context, callback) => {
     console.log(event.body);
     
@@ -31,7 +34,7 @@ function createGame(jsonRequest) {
     var gameToCreate = {};
     
     for (const key of keys) {
-        // Filter the 'action' key as it isn't
+        // Filter the 'action' key as it must not be included inside the game
         if (key == "action") {
             continue;
         }
@@ -39,7 +42,7 @@ function createGame(jsonRequest) {
     }
     
     return ddb.put({
-        TableName: 'gameTracker-games',
+        TableName: TABLE_NAME,
         Item: gameToCreate
     }).promise();
     

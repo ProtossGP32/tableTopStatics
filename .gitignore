@@ -1,0 +1,18 @@
+# Quarto
+**/*.html
+**/_site
+**/.luarc.json
+
+# VSCode
+**/.vscode
+
+# IntelliJ
+**/*.idea
+
+# Java outputs
+**/target
+
+# Vim
+**/*.swp
+
+

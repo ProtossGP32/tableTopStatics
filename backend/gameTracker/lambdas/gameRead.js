@@ -35,7 +35,7 @@ function readGames(jsonRequest) {
     };
 
     const filterExpressionArray = [];
-    const keyConditionArray = [];
+    const conditionArray = [];
     const expressionAttributeNamesMap = {};
     const expressionAttributeValuesMap = {};
     
@@ -43,7 +43,7 @@ function readGames(jsonRequest) {
     for (const key of keys) {
         if (KEYS_ARRAY.includes(key)) {
             // Add the keys to the keyCondition
-            keyConditionArray.push(`#${key} = :${key}`);
+            conditionArray.push(`#${key} = :${key}`);
         } else if (key != ACTION_KEY) {
             // Add the keys to the filterExpressionArray
             filterExpressionArray.push(`#${key} = :${key}`);
@@ -56,13 +56,13 @@ function readGames(jsonRequest) {
     }
     
     // DEBUG
-    //console.log(`keyConditionExpression: ${keyConditionArray.join(" and ")}`);
+    //console.log(`keyConditionExpression: ${conditionArray.join(" and ")}`);
     //console.log(`filterExpression: ${filterExpressionArray.join(" and ")}`);
     //console.log(`expressionAttributeNamesMap: ${JSON.stringify(expressionAttributeNamesMap)}`);
     //console.log(`expressionAttributeValuesMap: ${JSON.stringify(expressionAttributeValuesMap)}`);
     
     // Convert arrays to strings
-    const keyConditionString = keyConditionArray.join(" and ");
+    const conditionalString = conditionArray.join(" and ");
     const filterExpressionString = filterExpressionArray.join(" and ");
     
     
@@ -90,7 +90,7 @@ function readGames(jsonRequest) {
     } else if (query_success) {
         console.log("Launching a 'query' command:");
         // Update gameParams with the required 'query' params
-        gameParams.KeyConditionExpression = keyConditionString;
+        gameParams.KeyConditionExpression = conditionalString;
         gameParams.FilterExpression = filterExpressionString;
         gameParams.ExpressionAttributeNames = expressionAttributeNamesMap;
         gameParams.ExpressionAttributeValues = expressionAttributeValuesMap;
